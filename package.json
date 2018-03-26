@@ -1,0 +1,29 @@
+{
+  "name": "star-orbit",
+  "description": "A annulus star orbit.",
+  "version": "0.0.1",
+  "main": "poi.config.js",
+  "devDependencies": {
+    "gh-pages": "^1.1.0",
+    "poi": "^9.6.13",
+    "vue-router": "^3.0.1"
+  },
+  "scripts": {
+    "predeploy": "poi build",
+    "deploy": "gh-pages -d dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "git+https://github.com/YunYouJun/star-orbit.git",
+  "keywords": [
+    "star",
+    "orbit",
+    "planet",
+    "trail"
+  ],
+  "author": "YunYouJun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YunYouJun/star-orbit/issues"
+  },
+  "homepage": "https://github.com/YunYouJun/star-orbit#readme"
+}
