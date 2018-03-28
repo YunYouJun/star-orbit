@@ -11,17 +11,20 @@ export default {
         width: 500,
         height: 500
       },
+      point_radius: 5,
+      line_width: 2,
       id: 'bg',
       zIndex: 0,
-      opacity: 0.5,
-      color: '#8e71c1',
-      count: 66,
+      opacity: 1,
+      color: '#8e71c7',
+      count: 33,
       random_points: [],
       current_point: {
-        x: 5,
-        y: 5,
+        x: null,
+        y: null,
         max: 20000
-      }
+      },
+      mouseV: 0.003 // 向鼠标移动的速度
     }
   },
   computed: {
@@ -38,7 +41,7 @@ export default {
     this.setCanvasSize()
     this.drawStarPoint()
 
-    const _this = this
+    let _this = this
     window.onresize = this.setCanvasSize
     window.onmousemove = function(e) {
       e = e || window.event
@@ -63,12 +66,12 @@ export default {
           y: y,
           xa: xa,
           ya: ya,
-          max: 6000 //沾附距离
+          max: 8100 //沾附距离
         })
       }
 
       // 跟随鼠标 
-      this.random_points = this.random_points.concat([this.current_point])
+      // this.random_points = this.random_points.concat([this.current_point])
 
       const _this = this
       setTimeout(function () {
@@ -91,10 +94,16 @@ export default {
         r.y += r.ya,
         r.xa *= r.x > _this.c_size.width || r.x < 0 ? -1 : 1, 
         r.ya *= r.y > _this.c_size.height || r.y < 0 ? -1 : 1, //碰到边界，反向反弹
-        ctx.fillRect(r.x - 0.5, r.y - 0.5, 1, 1); //绘制一个宽高为1的点
-        // 此处未用 all_array 可在静止时释放
-        for (i = idx + 1; i < _this.random_points.length; i++) {
-          e = _this.random_points[i];
+        ctx.fillStyle = _this.color
+
+        //圆点
+        ctx.beginPath()
+        ctx.arc(r.x, r.y, _this.point_radius, 0, Math.PI * 2);
+        ctx.fill()
+
+        // 此处未用 all_array ,是因为可在静止时释放
+        for (i = idx + 1; i < _this.all_array.length; i++) {
+          e = _this.all_array[i];
           // 当前点存在
           if (null !== e.x && null !== e.y) {
             x_dist = r.x - e.x; //x轴距离 l
@@ -102,11 +111,11 @@ export default {
             dist = x_dist * x_dist + y_dist * y_dist; //总距离, m
 
             dist < e.max && (
-              e === _this.current_point && dist >= e.max / 2 && (r.x -= 0.03 * x_dist, r.y -= 0.03 * y_dist), //靠近的时候加速
+              e === _this.current_point && dist >= e.max / 2 && (r.x -= _this.mouseV * x_dist, r.y -= _this.mouseV * y_dist), //靠近的时候加速
               d = (e.max - dist) / e.max,
               ctx.beginPath(),
-              ctx.lineWidth = d / 2,
-              ctx.strokeStyle = "rgba(" +  _this.color + "," + (d + 0.2) + ")",
+              ctx.lineWidth = d / 2 + _this.line_width,
+              ctx.strokeStyle = "rgba(" +  _this.hex2rgb(_this.color) + "," + (d + 0.2) + ")",
               ctx.moveTo(r.x, r.y),
               ctx.lineTo(e.x, e.y),
               ctx.stroke()
@@ -114,6 +123,29 @@ export default {
           }
         }
       }), window.requestAnimationFrame(_this.drawStarLine)
+    },
+    hex2rgb (color) {
+      let sColor = color.toLowerCase()
+      //十六进制颜色值的正则表达式
+      let reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
+      // 如果是16进制颜色
+      if (sColor && reg.test(sColor)) {
+        if (sColor.length === 4) {
+          let sColorNew = "#"
+          for (let i=1; i<4; i+=1) {
+            sColorNew += sColor.slice(i, i+1).concat(sColor.slice(i, i+1));   
+          }
+          sColor = sColorNew
+        }
+        //处理六位的颜色值
+        let sColorChange = []
+        for (let i = 1; i < 7; i += 2) {
+          sColorChange.push(parseInt("0x" + sColor.slice(i, i+2)));   
+        }
+        // return "RGB(" + sColorChange.join(",") + ")";
+        return sColorChange
+      }
+      return sColor
     }
   }
 }
