@@ -1,7 +1,9 @@
 <template>
-  <canvas id="canvas" :width="canvas.width" :height="canvas.height">
-    Sorry, your browser doesn't support the &lt;canvas&gt; element.
-  </canvas>
+  <div>
+    <canvas id="star_map" :width="canvas.width" :height="canvas.height">
+      Sorry, your browser doesn't support the &lt;canvas&gt; element.
+    </canvas>
+  </div>
 </template>
 
 <script>
@@ -32,7 +34,7 @@ export default {
       this.canvas.height = document.body.clientHeight -30
     },
     drawStarMap () {
-      let canvas = document.getElementById('canvas')
+      let canvas = document.getElementById('star_map')
       let ctx = canvas.getContext('2d')
       
       ctx.lineWidth = 0.9
@@ -51,30 +53,30 @@ export default {
 
       ctx.beginPath()
       let height = 200 * Math.sin(Math.PI / 3)
-      ctx.moveTo(canvas.width / 2, canvas.height/2)
-      ctx.lineTo(canvas.width / 2 - 100, canvas.height / 2 + height)
-      ctx.lineTo(canvas.width / 2 + 100, canvas.height / 2 + height)
-      let grd = ctx.createLinearGradient(0, 0, canvas.width, 0)
+      ctx.moveTo(this.canvas.width / 2, this.canvas.height/2)
+      ctx.lineTo(this.canvas.width / 2 - 100, this.canvas.height / 2 + height)
+      ctx.lineTo(this.canvas.width / 2 + 100, this.canvas.height / 2 + height)
+      let grd = ctx.createLinearGradient(0, 0, this.canvas.width, 0)
       grd.addColorStop(0, "#4CE8B2"); //起始颜色
       grd.addColorStop(1, "#EFD458"); //终点颜色
       ctx.fillStyle = grd;
       ctx.fill(); //闭合形状并且以填充方式绘制出来
 
+      this.drawOrbit(ctx, {x: this.canvas.width - 200, y: this.canvas.height - 200}, 200)
+    },
+    drawOrbit (ctx, center, radius) {
       ctx.beginPath()
-      let x = canvas.width - 200 // x 坐标值
-      let y = canvas.height - 200 // y 坐标值
-      let radius = 100; // 圆弧半径
       var startAngle = Math.PI; // 开始点
       var endAngle = Math.PI * 2 // 结束点
       var anticlockwise = true; // 逆时针
-      ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+      ctx.arc(center.x, center.y, radius, startAngle, endAngle, anticlockwise);
       ctx.stroke()
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 canvas {
   box-shadow: 0px 2px 13px #8e71c7;
   margin: 13px;

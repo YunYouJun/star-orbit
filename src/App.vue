@@ -2,15 +2,19 @@
   <div id="app">
     <!-- <img src="./assets/star.png"> -->
     <star-map></star-map>
+    <star-point></star-point>
   </div>
 </template>
 
 <script>
 import StarMap from '@/components/StarMap'
+import StarPoint from '@/components/StarPoint'
+
 export default {
   name: 'App',
   components: {
-    StarMap
+    StarMap,
+    StarPoint
   }
 }
 </script>

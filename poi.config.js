@@ -5,5 +5,6 @@ module.exports = (options, req) => ({
   homepage: './',
   env: {
     APP_DESCRIPTION: pkg.description
-  }
+  },
+  templateCompiler: false
 })
