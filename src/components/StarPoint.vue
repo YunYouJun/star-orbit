@@ -24,6 +24,7 @@ export default {
         y: null,
         max: 20000
       },
+      moveV: 0.3,
       mouseV: 0.003 // 向鼠标移动的速度
     }
   },
@@ -70,9 +71,6 @@ export default {
         })
       }
 
-      // 跟随鼠标 
-      // this.random_points = this.random_points.concat([this.current_point])
-
       const _this = this
       setTimeout(function () {
         window.requestAnimationFrame(_this.drawStarLine);
@@ -90,8 +88,8 @@ export default {
       const _this = this
 
       this.random_points.forEach(function (r, idx) {
-        r.x += r.xa,
-        r.y += r.ya,
+        r.x += _this.moveV * r.xa,
+        r.y += _this.moveV * r.ya,
         r.xa *= r.x > _this.c_size.width || r.x < 0 ? -1 : 1, 
         r.ya *= r.y > _this.c_size.height || r.y < 0 ? -1 : 1, //碰到边界，反向反弹
         ctx.fillStyle = _this.color
@@ -101,7 +99,6 @@ export default {
         ctx.arc(r.x, r.y, _this.point_radius, 0, Math.PI * 2);
         ctx.fill()
 
-        // 此处未用 all_array ,是因为可在静止时释放
         for (i = idx + 1; i < _this.all_array.length; i++) {
           e = _this.all_array[i];
           // 当前点存在

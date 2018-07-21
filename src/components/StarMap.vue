@@ -48,17 +48,20 @@ export default {
 
       this.drawTriangle()
       this.drawOrbit(ctx, {x: this.c_size.width - 200, y: this.c_size.height - 200}, 200)
+
+      this.drawHeart()
     },
-    drawOrbit (ctx, center, radius) {
+    drawOrbit (center, radius) {
+      let ctx = this.ctx
       ctx.beginPath()
-      var startAngle = Math.PI; // 开始点
+      var startAngle = Math.PI // 开始点
       var endAngle = Math.PI * 2 // 结束点
-      var anticlockwise = true; // 逆时针
-      ctx.arc(center.x, center.y, radius, startAngle, endAngle, anticlockwise);
+      var anticlockwise = true // 逆时针
+      ctx.arc(center.x, center.y, radius, startAngle, endAngle, anticlockwise)
       ctx.stroke()
 
       ctx.beginPath()
-      ctx.arc(200, 200, 100, 0, Math.PI * 2);
+      ctx.arc(200, 200, 100, 0, Math.PI * 2)
       ctx.stroke()
     },
     drawTriangle () {
@@ -73,6 +76,18 @@ export default {
       grd.addColorStop(1, "#EFD458"); //终点颜色
       ctx.fillStyle = grd;
       ctx.fill(); //闭合形状并且以填充方式绘制出来
+    },
+    drawHeart () {
+      let ctx = this.ctx
+      ctx.beginPath();
+      ctx.moveTo(75,40);
+      ctx.bezierCurveTo(75,37,70,25,50,25);
+      ctx.bezierCurveTo(20,25,20,62.5,20,62.5);
+      ctx.bezierCurveTo(20,80,40,102,75,120);
+      ctx.bezierCurveTo(110,102,130,80,130,62.5);
+      ctx.bezierCurveTo(130,62.5,130,25,100,25);
+      ctx.bezierCurveTo(85,25,75,37,75,40);
+      ctx.fill();
     }
   }
 }

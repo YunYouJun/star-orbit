@@ -2,10 +2,14 @@
 
 A annulus star orbit.
 
+## Inspiration:
+
+- [【洛天依原创】星宿计时【杉田朗】](https://www.bilibili.com/video/av7036967)
+
 ## Reference
 
 - [canvas-nest.js](https://github.com/hustcc/canvas-nest.js)
 
-## Inspiration:
+### Effects
 
-- [【洛天依原创】星宿计时【杉田朗】](https://www.bilibili.com/video/av7036967)
+- <https://videohive.net/item/shapix-shape-elements-pack/14061002>
