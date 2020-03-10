@@ -1,0 +1,15 @@
+{
+  "short_name": "star",
+  "name": "star-timer",
+  "icons": [
+    {
+      "src": "star.svg",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#8e71c7",
+  "background_color": "#ffffff"
+}
