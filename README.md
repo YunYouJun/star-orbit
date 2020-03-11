@@ -1,8 +1,8 @@
-# star-timer
+# star-orbit
 
 A annulus star orbit.
 
-- [Demo](https://yunyoujun.github.io/star-timer/)
+- [Demo](https://yunyoujun.github.io/star-orbit/)
 
 ## Inspiration:
 

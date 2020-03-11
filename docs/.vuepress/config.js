@@ -21,7 +21,7 @@ module.exports = {
     logo: "/star.svg",
     sidebar: "auto",
     lastUpdated: "上次更新",
-    repo: "YunYouJun/star-timer",
+    repo: "YunYouJun/star-orbit",
     editLinks: true,
     editLinkText: "帮助改善此页面！( ￣□￣)/",
     nav: [

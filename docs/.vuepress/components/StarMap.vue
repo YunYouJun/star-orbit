@@ -17,18 +17,18 @@ export default {
   mounted() {
     this.resizeCanvas();
     this.drawStarMap();
-    window.onresize = () => {
+    window.addEventListener("resize", () => {
       this.resizeCanvas();
+      // 等待 canvas 变换好，再延时绘制，不然可能会没有内容
       setTimeout(function() {
         this.drawStarMap();
       }, 100);
-    };
+    });
   },
   methods: {
     resizeCanvas() {
       this.canvas = document.getElementById("star-map");
       let parentStyle = window.getComputedStyle(this.canvas.parentNode);
-      console.log(parentStyle.width);
       this.canvas.width = parseInt(parentStyle.width);
       this.canvas.height = document.body.clientHeight - 400;
     },
@@ -54,9 +54,9 @@ export default {
     drawOrbit(center, radius) {
       let ctx = this.ctx;
       ctx.beginPath();
-      var startAngle = Math.PI; // 开始点
-      var endAngle = Math.PI * 2; // 结束点
-      var anticlockwise = true; // 逆时针
+      let startAngle = Math.PI; // 开始点
+      let endAngle = Math.PI * 2; // 结束点
+      let anticlockwise = true; // 逆时针
       ctx.arc(center.x, center.y, radius, startAngle, endAngle, anticlockwise);
       ctx.stroke();
 
