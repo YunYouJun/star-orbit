@@ -11,7 +11,8 @@ Deving
 I want to develop a library about SVG and Canvas animation.
 
 They are also can be implemented by Vanilla JavaScript.
-For more convenient interaction and presentation, I use VuePress.
+
+But for better interaction and presentation, I use Vuepress.
 
 It may be packaged for release in the future.
 

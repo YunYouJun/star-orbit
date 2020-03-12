@@ -4,4 +4,4 @@ Todo.
 
 ...
 
-<StarTimer/>
+See more [components](../components/so-timer.html).

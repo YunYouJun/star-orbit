@@ -26,18 +26,11 @@ module.exports = {
     editLinkText: "帮助改善此页面！( ￣□￣)/",
     nav: [
       { text: "Guide", link: "/guide/" },
-      { text: "Components", link: "/components/" }
+      { text: "Components", link: "/components/so-timer" }
     ],
     sidebar: {
-      // {
-      //   title: "Components",
-      //   path: "/components/",
-      //   collapsable: false,
-      //   sidebarDepth: 2,
-      //   children: ["/", "/components/so-timer"]
-      // }
+      "/guide/": ["", "about", "design", "todo"],
       "/components/": [
-        "",
         "so-timer",
         {
           title: "Star Voice",
@@ -46,7 +39,6 @@ module.exports = {
             "/components/so-voice/device.html",
             "/components/so-voice/music.html"
           ]
-          // "/components/so-voice/": ["", "device", "music"]
         },
         "so-point"
       ]

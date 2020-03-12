@@ -1,31 +1,12 @@
 <template>
   <div>
-    <svg
-      id="voice-bar-container"
-      ref="voiceBox"
-      :height="boxHeight"
-      :fill="color"
-    >
-      <defs>
-        <g id="voice-bars" ref="voiceBars"></g>
+    <svg ref="voiceBox" :height="boxHeight" :fill="color">
+      <defs ref="defs">
         <linearGradient id="bar-grad" x1="0.5" y1="0" x2="0.5" y2="1">
           <stop offset="0" :stop-color="color"></stop>
           <stop offset="1" stop-color="rgba(142,113,199,0)"></stop>
         </linearGradient>
       </defs>
-      <use xlink:href="#voice-bars" />
-      <use
-        xlink:href="#voice-bars"
-        :transform="`scale(-1, 1) translate(${-svgWidth}, 0)`"
-      />
-      <use
-        xlink:href="#voice-bars"
-        :transform="`rotate(180, ${svgWidth / 2}, ${boxHeight / 2})`"
-      />
-      <use
-        xlink:href="#voice-bars"
-        :transform="`scale(1, -1) translate(0, ${-boxHeight})`"
-      />
     </svg>
   </div>
 </template>
@@ -37,20 +18,33 @@ audio {
 </style>
 
 <script>
+const SVG_NS = "http://www.w3.org/2000/svg";
+const XLINK_NS = "http://www.w3.org/1999/xlink";
 export default {
   props: {
     src: String,
-    audioID: String
+    audioID: String,
+    type: {
+      default: "histogram",
+      type: String
+    },
+    fftSize: {
+      default: 128,
+      type: Number
+    },
+    // small than half of fftSize
+    // do not include repeat
+    displaySize: {
+      default: 56,
+      type: Number
+    }
   },
   data() {
     return {
       color: "#8e71c7",
       boxHeight: 600,
       svgWidth: 0,
-      fftSize: 64,
-      // small than half of fftSize
-      // repeat display so size can be bigger
-      displaySize: 56,
+
       bars: []
     };
   },
@@ -84,23 +78,80 @@ export default {
       let audioCtx = this.audioContext;
     },
     initVoiceBar() {
-      let barsGroup = this.$refs.voiceBars;
+      this.repeatBars();
+      const barsGroup = document.createElementNS(SVG_NS, "g");
+      barsGroup.setAttribute("id", "voice-bars-" + this.type);
+      this.$refs.defs.appendChild(barsGroup);
 
-      const SVG_NS = "http://www.w3.org/2000/svg";
-      const rectWidth = this.svgWidth / this.displaySize;
+      let rectWidth = 20;
       const rectHeight = 1;
-      for (let i = 0; i < this.displaySize; i++) {
-        const rect = document.createElementNS(SVG_NS, "rect");
-        rect.setAttribute("x", this.svgWidth / 2 + rectWidth * i);
-        rect.setAttribute("y", this.boxHeight / 2);
-        rect.setAttribute("width", rectWidth);
-        rect.setAttribute("height", rectHeight);
-        // rect.setAttribute("stroke", this.color);
-        rect.setAttribute("fill", "url(#bar-grad)");
-        // rect.setAttribute("fill", "none");
-        barsGroup.appendChild(rect);
-        this.bars.push(rect);
+      if (this.type === "circle") {
+        const circle = document.createElementNS(SVG_NS, "circle");
+        const cx = this.svgWidth / 2;
+        const cy = this.boxHeight / 2;
+        const r = 150;
+        rectWidth = ((Math.PI * r) / this.displaySize) * 0.8;
+        circle.setAttribute("cx", cx);
+        circle.setAttribute("cy", cy);
+        circle.setAttribute("r", r);
+        circle.setAttribute("stroke", this.color);
+        circle.setAttribute("fill", "none");
+        this.$refs.voiceBox.appendChild(circle);
+        for (let i = 0; i < this.displaySize; i++) {
+          const rect = document.createElementNS(SVG_NS, "rect");
+          rect.setAttribute("x", cx);
+          rect.setAttribute("y", cy - r);
+          rect.setAttribute("width", rectWidth);
+          rect.setAttribute("height", rectHeight);
+          // rect.setAttribute("stroke", this.color);
+          rect.setAttribute("fill", "url(#bar-grad)");
+          // rect.setAttribute("fill", "none");
+          rect.setAttribute(
+            "transform",
+            `rotate(${(i / this.displaySize) * 180},${cx},${cy})`
+          );
+          barsGroup.appendChild(rect);
+          this.bars.push(rect);
+        }
+      } else {
+        rectWidth = this.svgWidth / (this.displaySize * 2);
+        for (let i = 0; i < this.displaySize; i++) {
+          const rect = document.createElementNS(SVG_NS, "rect");
+          rect.setAttribute("x", this.svgWidth / 2 + rectWidth * i);
+          rect.setAttribute("y", this.boxHeight / 2);
+          rect.setAttribute("width", rectWidth);
+          rect.setAttribute("height", rectHeight);
+          // rect.setAttribute("stroke", this.color);
+          rect.setAttribute("fill", "url(#bar-grad)");
+          // rect.setAttribute("fill", "none");
+          barsGroup.appendChild(rect);
+          this.bars.push(rect);
+        }
       }
+    },
+    repeatBars() {
+      const svgBox = this.$refs.voiceBox;
+      let use = document.createElementNS(SVG_NS, "use");
+      use.setAttributeNS(XLINK_NS, "href", "#voice-bars-" + this.type);
+      svgBox.appendChild(use);
+      use = use.cloneNode();
+      use.setAttribute(
+        "transform",
+        `scale(-1, 1) translate(${-this.svgWidth}, 0)`
+      );
+      svgBox.appendChild(use);
+      use = use.cloneNode();
+      use.setAttribute(
+        "transform",
+        `rotate(180, ${this.svgWidth / 2}, ${this.boxHeight / 2})`
+      );
+      svgBox.appendChild(use);
+      use = use.cloneNode();
+      use.setAttribute(
+        "transform",
+        `scale(1, -1) translate(0, ${-this.boxHeight})`
+      );
+      svgBox.appendChild(use);
     },
     connectSource(source) {
       let audioCtx = this.audioContext;
@@ -114,9 +165,11 @@ export default {
       const audio = document.getElementById(this.audioID);
       let source;
       audio.addEventListener("play", () => {
-        this.initAudioContext();
-        source = this.audioContext.createMediaElementSource(audio);
-        this.connectSource(source);
+        if (!this.audioContext) {
+          this.initAudioContext();
+          source = this.audioContext.createMediaElementSource(audio);
+          this.connectSource(source);
+        }
         this.frequencyBars();
       });
     },
@@ -153,7 +206,9 @@ export default {
       let drawBars = () => {
         analyser.getByteFrequencyData(dataArray);
         for (let i = 0; i < this.displaySize; i++) {
-          bars[i].setAttribute("height", dataArray[i] + 1);
+          const height =
+            this.type === "circle" ? dataArray[i] / 2 : dataArray[i] + 1;
+          bars[i].setAttribute("height", height);
         }
         window.requestAnimationFrame(drawBars);
       };
