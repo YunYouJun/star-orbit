@@ -27,7 +27,30 @@ module.exports = {
     nav: [
       { text: "Guide", link: "/guide/" },
       { text: "Components", link: "/components/" }
-    ]
+    ],
+    sidebar: {
+      // {
+      //   title: "Components",
+      //   path: "/components/",
+      //   collapsable: false,
+      //   sidebarDepth: 2,
+      //   children: ["/", "/components/so-timer"]
+      // }
+      "/components/": [
+        "",
+        "so-timer",
+        {
+          title: "Star Voice",
+          collapsable: false,
+          children: [
+            "/components/so-voice/device.html",
+            "/components/so-voice/music.html"
+          ]
+          // "/components/so-voice/": ["", "device", "music"]
+        },
+        "so-point"
+      ]
+    }
   },
   plugins: [
     "@vuepress/back-to-top",

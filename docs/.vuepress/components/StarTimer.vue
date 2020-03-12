@@ -80,7 +80,7 @@ export default {
         this.minute += 0.12;
         hour = this.minute / 60;
         this.updateTimerByTime(hour, this.minute);
-      }, 16);
+      }, 16.6);
       // must small than 16 to more than 60fps
     },
     updateTimerByTime(hour, minute) {

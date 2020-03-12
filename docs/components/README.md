@@ -1,6 +1,5 @@
-# Components
+# 设计规范
 
 ## Star Oribit
 
-<star-map />
-<star-point />
+### Color
