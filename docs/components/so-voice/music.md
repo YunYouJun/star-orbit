@@ -1,3 +1,0 @@
-# Music
-
-<demo-StarMusic/>

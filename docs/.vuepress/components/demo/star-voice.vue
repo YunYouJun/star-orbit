@@ -3,7 +3,7 @@
     <button class="so-btn" @click="toggleStatus">
       {{ btnText }}
     </button>
-    <StarVoice ref="control" />
+    <star-voice ref="control"></star-voice>
   </div>
 </template>
 

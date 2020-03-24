@@ -26,21 +26,23 @@ module.exports = {
     editLinkText: "帮助改善此页面！( ￣□￣)/",
     nav: [
       { text: "Guide", link: "/guide/" },
-      { text: "Components", link: "/components/so-timer" }
+      { text: "Components", link: "/components/star-timer" }
     ],
     sidebar: {
       "/guide/": ["", "about", "design", "todo"],
       "/components/": [
-        "so-timer",
+        "star-timer",
         {
           title: "Star Voice",
           collapsable: false,
           children: [
-            "/components/so-voice/device.html",
-            "/components/so-voice/music.html"
+            "/components/star-voice/device.html",
+            "/components/star-voice/music.html"
           ]
         },
-        "so-point"
+        "star-orbit",
+        "star-line",
+        "star-point"
       ]
     }
   },

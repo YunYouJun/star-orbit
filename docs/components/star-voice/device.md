@@ -2,4 +2,4 @@
 
 Click `Start` to listen to your voice.
 
-<demo-StarVoice />
+<demo-star-voice></demo-star-voice>

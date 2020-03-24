@@ -10,7 +10,7 @@
     <hr />
 
     <audio v-if="src" id="star-music" :src="src" controls crossorigin></audio>
-    <StarMusic audioID="star-music" :src="src" />
+    <star-music audioID="star-music" :src="src"></star-music>
 
     <audio
       v-if="src"
@@ -19,7 +19,11 @@
       controls
       crossorigin
     ></audio>
-    <StarMusic audioID="star-music-circle" :src="src" type="circle" />
+    <star-music
+      audioID="star-music-circle"
+      :src="src"
+      type="circle"
+    ></star-music>
   </div>
 </template>
 

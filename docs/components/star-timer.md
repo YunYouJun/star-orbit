@@ -1,6 +1,6 @@
 # Star Timer
 
-<StarTimer/>
+<star-timer></star-timer>
 
 此处使用 `setInterval` 实现，每 16.6ms 绘制一次。 `clearInterval` 实现停止。
 

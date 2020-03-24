@@ -31,6 +31,7 @@
 </template>
 
 <script>
+const SVG_NS = "http://www.w3.org/2000/svg";
 export default {
   props: {
     src: String
@@ -82,7 +83,6 @@ export default {
     initVoiceBar() {
       let barsGroup = this.$refs.voiceBars;
 
-      const SVG_NS = "http://www.w3.org/2000/svg";
       const rectWidth = this.svgWidth / this.displaySize;
       const rectHeight = 1;
       for (let i = 0; i < this.displaySize; i++) {

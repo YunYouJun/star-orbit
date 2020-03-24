@@ -4,4 +4,4 @@ Todo.
 
 ...
 
-See more [components](../components/so-timer.html).
+See more [components](../components/star-timer.html).
