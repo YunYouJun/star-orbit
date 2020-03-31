@@ -42,7 +42,15 @@ module.exports = {
         },
         "star-orbit",
         "star-line",
-        "star-point"
+        "star-point",
+        {
+          title: "Star Text",
+          collapsable: false,
+          children: [
+            "/components/star-text/line.html",
+            "/components/star-text/display.html"
+          ]
+        }
       ]
     }
   },
