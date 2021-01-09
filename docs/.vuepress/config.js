@@ -1,3 +1,4 @@
+const dayjs = require("dayjs");
 const pkg = require("../../package.json");
 module.exports = {
   base: "/" + pkg.name + "/",
@@ -10,12 +11,12 @@ module.exports = {
     ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
     [
       "meta",
-      { name: "apple-mobile-web-app-status-bar-style", content: "black" }
+      { name: "apple-mobile-web-app-status-bar-style", content: "black" },
     ],
     ["link", { rel: "apple-touch-icon", href: "/star.svg" }],
     ["link", { rel: "mask-icon", href: "/star.svg", color: "#8e71c7" }],
     ["meta", { name: "msapplication-TileImage", content: "/star.svg" }],
-    ["meta", { name: "msapplication-TileColor", content: "#8e71c7" }]
+    ["meta", { name: "msapplication-TileColor", content: "#8e71c7" }],
   ],
   themeConfig: {
     logo: "/star.svg",
@@ -26,7 +27,7 @@ module.exports = {
     editLinkText: "帮助改善此页面！( ￣□￣)/",
     nav: [
       { text: "Guide", link: "/guide/" },
-      { text: "Components", link: "/components/star-timer" }
+      { text: "Components", link: "/components/star-timer" },
     ],
     sidebar: {
       "/guide/": ["", "about", "design", "todo"],
@@ -37,8 +38,8 @@ module.exports = {
           collapsable: false,
           children: [
             "/components/star-voice/device.html",
-            "/components/star-voice/music.html"
-          ]
+            "/components/star-voice/music.html",
+          ],
         },
         "star-orbit",
         "star-line",
@@ -48,20 +49,22 @@ module.exports = {
           collapsable: false,
           children: [
             "/components/star-text/line.html",
-            "/components/star-text/display.html"
-          ]
-        }
-      ]
-    }
+            "/components/star-text/display.html",
+          ],
+        },
+      ],
+    },
   },
-  plugins: [
-    "@vuepress/back-to-top",
-    [
-      "@vuepress/pwa",
-      {
-        serviceWorker: true,
-        updatePopup: true
-      }
-    ]
-  ]
+  plugins: {
+    "@vuepress/back-to-top": true,
+    "@vuepress/pwa": {
+      serviceWorker: true,
+      updatePopup: true,
+    },
+    "@vuepress/last-updated": {
+      transformer: (timestamp, lang) => {
+        return dayjs(timestamp).format("YYYY-MM-DD HH:mm:ss");
+      },
+    },
+  },
 };

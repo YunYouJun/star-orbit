@@ -1,6 +1,8 @@
 # Custom
 .DS_Store
 dist/
+yarn.lock
+package-lock.json
 
 # Logs
 logs
